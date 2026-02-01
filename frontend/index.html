@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Docker Best Practices - Frontend</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <h1>🚀 Docker Setup Successful!</h1>
+    <p>Both backend and frontend are running in Docker containers.</p>
+    
+    <h2>Services:</h2>
+    <ul>
+        <li><strong>Backend API:</strong> <a href="http://localhost:3000" target="_blank">http://localhost:3000\</a\>\</li\>
+        <li><strong>Health Check:</strong> <a href="http://localhost:3000/health" target="_blank">http://localhost:3000/health\</a\>\</li\>
+        <li><strong>Frontend:</strong> <a href="http://localhost:8080" target="_blank">http://localhost:8080\</a\>\</li\>
+    </ul>
+    
+    <h2>Backend Status:</h2>
+    <div id="status">
+        <p>Checking backend health...</p>
+    </div>
+    
+    <script>
+        async function checkBackend() {
+            try {
+                const response = await fetch('http://localhost:3000/health');
+                const data = await response.json();
+                document.getElementById('status').innerHTML = `
+                    <p style="color: green;">✅ Backend is healthy!</p>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                document.getElementById('status').innerHTML = `
+                    <p style="color: red;">❌ Backend unreachable</p>
+                    <p>Error: ${error.message}</p>
+                `;
+            }
+        }
+        
+        // Check immediately
+        checkBackend();
+        
+        // Check every 10 seconds
+        setInterval(checkBackend, 10000);
+    </script>
+</body>
+</html>
